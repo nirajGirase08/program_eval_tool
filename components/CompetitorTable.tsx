@@ -14,6 +14,7 @@ export type Row = {
 type SortKey = keyof Pick<
   Row,
   | "Institution"
+  | "Program"
   | "cip_codes_used"
   | "appPercentile"
   | "admissibilityPercentile"
