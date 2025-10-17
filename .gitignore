@@ -6,6 +6,21 @@ __pycache__/
 # C extensions
 *.so
 
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+
+# env & local
+.env*
+.DS_Store
+.vercel/
+coverage/
+dist/
+
+
 # Distribution / packaging
 .Python
 build/
