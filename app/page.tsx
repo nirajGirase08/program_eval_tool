@@ -1,30 +1,26 @@
 "use client";
 import { useState } from "react";
-import ProgramSelector from "../components/ProgramSelector";
-import CompetitorTable, { Row } from "../components/CompetitorTable";
+import SideNav, { ViewMode } from "../components/SideNav";
+import InternalCsvView from "../components/InternalCsvView";
+import ExternalDataView from "../components/ExternalDataView";
 
 export default function Page() {
-  const [program, setProgram] = useState("");
-  const [rows, setRows] = useState<Row[]|null>(null);
-  const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState<string|null>(null);
-
-  const load = async (p:string) => {
-    setLoading(true); setErr(null); setRows(null);
-    try{
-      const r = await fetch(`/api/competitors?program=${encodeURIComponent(p)}`);
-      const data = await r.json(); if(!r.ok) throw new Error(data?.error||"Failed");
-      setProgram(p); setRows(data);
-    }catch(e:any){ setErr(e.message); }
-    finally{ setLoading(false); }
-  };
+  const [currentView, setCurrentView] = useState<ViewMode>("internal");
 
   return (
-    <div className="stack">
-      <ProgramSelector onSelect={load}/>
-      {loading && <p className="container" style={{textAlign:"center"}}>Loading…</p>}
-      {err && <p className="container" style={{textAlign:"center",color:"#dc2626"}}>Error: {err}</p>}
-      {rows && <CompetitorTable program={program} rows={rows} />}
-    </div>
+    <>
+      {/* Blue top header bar */}
+      <div className="app-header">
+        Vanderbilt Competitor Analysis <span className="pilot-tag">(Pilot)</span>
+      </div>
+
+      {/* Main 2-column layout */}
+      <div className="main-layout">
+        <SideNav currentView={currentView} onViewChange={setCurrentView} />
+        <div className="main-content">
+          {currentView === "internal" ? <InternalCsvView /> : <ExternalDataView />}
+        </div>
+      </div>
+    </>
   );
 }

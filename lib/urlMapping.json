@@ -1,0 +1,172 @@
+[
+  {
+    "institution": "Harvard Graduate School of Education",
+    "programName": "Education Policy",
+    "url": "https://www.gse.harvard.edu/academics/masters/epm"
+  },
+  {
+    "institution": "Stanford University",
+    "programName": "Education Policy",
+    "url": "https://ed.stanford.edu/academics/masters/step"
+  },
+  {
+    "institution": "University of Pennsylvania",
+    "programName": "Education Policy",
+    "url": "https://www.gse.upenn.edu/academics/programs/mse-education-policy"
+  },
+  {
+    "institution": "Teachers College Columbia University",
+    "programName": "Education Policy",
+    "url": "https://www.tc.columbia.edu/politics-and-education/academic-programs/ma-in-politics-and-education/"
+  },
+  {
+    "institution": "Duke University",
+    "programName": "Education Policy",
+    "url": "https://sanford.duke.edu/academics/masters-programs/master-public-policy/"
+  },
+  {
+    "institution": "University of Michigan [Ann Arbor]",
+    "programName": "Education Policy",
+    "url": "https://soe.umich.edu/academics/degree-programs/educational-studies/ma-educational-studies/"
+  },
+  {
+    "institution": "University of Chicago",
+    "programName": "Education Policy",
+    "url": "https://cct.uchicago.edu/"
+  },
+  {
+    "institution": "Georgetown University",
+    "programName": "Education Policy",
+    "url": "https://grad.georgetown.edu/academics/programs/education-policy/"
+  },
+  {
+    "institution": "Columbia University",
+    "programName": "Education Policy",
+    "url": "https://www.tc.columbia.edu/organization-and-leadership/"
+  },
+  {
+    "institution": "University of Texas [Austin]",
+    "programName": "Education Policy",
+    "url": "https://education.utexas.edu/departments/educational-leadership-and-policy/"
+  },
+  {
+    "institution": "New York University",
+    "programName": "Education Policy",
+    "url": "https://steinhardt.nyu.edu/degree/ma-educational-leadership-politics-and-advocacy"
+  },
+  {
+    "institution": "University of California [Berkeley]",
+    "programName": "Education Policy",
+    "url": "https://gse.berkeley.edu/academics/degrees/"
+  },
+  {
+    "institution": "George Washington University",
+    "programName": "Education Policy",
+    "url": "https://gsehd.gwu.edu/programs/educational-leadership-and-administration/"
+  },
+  {
+    "institution": "American University",
+    "programName": "Education Policy",
+    "url": "https://www.american.edu/cas/education/graduate/"
+  },
+  {
+    "institution": "University of Wisconsin [Madison]",
+    "programName": "Education Policy",
+    "url": "https://elpa.education.wisc.edu/"
+  },
+  {
+    "institution": "University of Washington [Seattle]",
+    "programName": "Education Policy",
+    "url": "https://education.uw.edu/programs/elpa/"
+  },
+  {
+    "institution": "University of Virginia",
+    "programName": "Education Policy",
+    "url": "https://curry.virginia.edu/academics/degrees/leadership-policy-organizations"
+  },
+  {
+    "institution": "University of Tennessee [Knoxville]",
+    "programName": "Higher Education Administration",
+    "url": "https://epc.utk.edu/higher-education-administration/"
+  },
+  {
+    "institution": "University of South Carolina [Columbia]",
+    "programName": "Higher Education Administration",
+    "url": "https://sc.edu/study/colleges_schools/education/academic_departments/educational_studies/graduate_programs/higher_education_and_student_affairs/"
+  },
+  {
+    "institution": "Clemson University",
+    "programName": "Higher Education Administration",
+    "url": "https://www.clemson.edu/education/departments/educational-leadership/programs/higher-education-student-affairs.html"
+  },
+  {
+    "institution": "Boston College",
+    "programName": "Higher Education Administration",
+    "url": "https://www.bc.edu/bc-web/schools/lynch-school/academics/graduate/applied-psychology-human-development/higher-education.html"
+  },
+  {
+    "institution": "Indiana University  [Bloomington]",
+    "programName": "Higher Education Administration",
+    "url": "https://education.indiana.edu/programs/graduate/higher-education-student-affairs.html"
+  },
+  {
+    "institution": "Michigan State University",
+    "programName": "Higher Education Administration",
+    "url": "https://education.msu.edu/k12/ead/graduate/higher-education-administration/"
+  },
+  {
+    "institution": "University of Georgia",
+    "programName": "Higher Education Administration",
+    "url": "https://coe.uga.edu/academics/degrees/lifelong-education-administration-policy/higher-education/"
+  },
+  {
+    "institution": "Harvard Graduate School of Education",
+    "programName": "Higher Education Administration",
+    "url": "https://www.gse.harvard.edu/academics/masters/hepg"
+  },
+  {
+    "institution": "North Carolina State University",
+    "programName": "Higher Education Administration",
+    "url": "https://ced.ncsu.edu/elps/academics/graduate-programs/higher-education-administration/"
+  },
+  {
+    "institution": "University of Maryland [College Park]",
+    "programName": "Higher Education Administration",
+    "url": "https://education.umd.edu/academics/programs/higher-education-student-personnel-and-administration/"
+  },
+  {
+    "institution": "University of Southern California",
+    "programName": "Higher Education Administration",
+    "url": "https://rossier.usc.edu/programs/masters/higher-education-administration/"
+  },
+  {
+    "institution": "University of Texas [Austin]",
+    "programName": "Higher Education Administration",
+    "url": null
+  },
+  {
+    "institution": "University of Pennsylvania",
+    "programName": "Higher Education Administration",
+    "url": "https://www.gse.upenn.edu/academics/programs/higher-education-division"
+  },
+  {
+    "institution": "University of Virginia",
+    "programName": "Higher Education Administration",
+    "url": "https://curry.virginia.edu/academics/degrees/higher-education"
+  },
+  {
+    "institution": "New York University",
+    "programName": "Higher Education Administration",
+    "url": "https://steinhardt.nyu.edu/degree/ma-higher-education-and-student-affairs"
+  },
+  {
+    "institution": "University of Michigan [Ann Arbor]",
+    "programName": "Higher Education Administration",
+    "url": "https://soe.umich.edu/academics/degree-programs/higher-education/"
+  },
+  {
+    "institution": "George Washington University",
+    "programName": "Higher Education Administration",
+    "url": "https://gsehd.gwu.edu/programs/higher-education-administration/"
+  }
+]

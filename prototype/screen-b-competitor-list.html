@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanderbilt Competitor Analysis - Competitors</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            padding: 24px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .header {
+            padding: 32px 32px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        
+        .header-left h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .search-input {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 200px;
+        }
+        
+        .search-input::placeholder {
+            color: #9ca3af;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-secondary {
+            background-color: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e5e7eb;
+        }
+        
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th {
+            background-color: #f9fafb;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .table th:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .table th.sortable::after {
+            content: ' ↕';
+            color: #9ca3af;
+            font-size: 12px;
+        }
+        
+        .table th.sorted-desc::after {
+            content: ' ↓';
+            color: #374151;
+        }
+        
+        .table th.sorted-asc::after {
+            content: ' ↑';
+            color: #374151;
+        }
+        
+        .table td {
+            padding: 16px;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 14px;
+            color: #374151;
+        }
+        
+        .table tbody tr:hover {
+            background-color: #f9fafb;
+        }
+        
+        .win-rate {
+            font-weight: 600;
+        }
+        
+        .win-rate.high {
+            color: #059669;
+        }
+        
+        .win-rate.medium {
+            color: #d97706;
+        }
+        
+        .win-rate.low {
+            color: #dc2626;
+        }
+        
+        .delete-btn {
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            opacity: 0.6;
+            transition: all 0.2s;
+        }
+        
+        .delete-btn:hover {
+            opacity: 1;
+            background-color: #fee2e2;
+        }
+        
+        .program-name {
+            font-style: italic;
+            color: #6b7280;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .controls {
+                justify-content: center;
+            }
+            
+            .search-input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <h1>Top Competitors — Education Policy</h1>
+            </div>
+            <div class="controls">
+                <input type="text" class="search-input" placeholder="Search institutions...">
+                <button class="btn btn-secondary">Export CSV</button>
+                <button class="btn btn-primary">+ Add Competitor</button>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="sortable">Institution</th>
+                        <th>Program</th>
+                        <th class="sortable sorted-desc">Applications</th>
+                        <th class="sortable">Went to Competitor</th>
+                        <th class="sortable">Win Rate (%)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Harvard University</strong></td>
+                        <td class="program-name">Education Policy & Management</td>
+                        <td>847</td>
+                        <td>312</td>
+                        <td class="win-rate low">63.2%</td>
+                        <td><button class="delete-btn">🗑️</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stanford University</strong></td>
+                        <td class="program-name">Policy, Organization & Leadership</td>
+                        <td>623</td>
+                        <td>198</td>
+                        <td class="win-rate medium">68.2%</td>
+                        <td><button class="delete-btn">🗑️</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Columbia University</strong></td>
+                        <td class="program-name">Politics & Education</td>
+                        <td>512</td>
+                        <td>145</td>
+                        <td class="win-rate medium">71.7%</td>
+                        <td><button class="delete-btn">🗑️</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>University of Pennsylvania</strong></td>
+                        <td class="program-name">Education Policy</td>
+                        <td>489</td>
+                        <td>127</td>
+                        <td class="win-rate medium">74.0%</td>
+                        <td><button class="delete-btn">🗑️</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Northwestern University</strong></td>
+                        <td class="program-name">Education & Social Policy</td>
+                        <td>356</td>
+                        <td>89</td>
+                        <td class="win-rate high">75.0%</td>
+                        <td><button class="delete-btn">🗑️</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>University of Chicago</strong></td>
+                        <td class="program-name">Comparative Human Development</td>
+                        <td>298</td>
+                        <td>67</td>
+                        <td class="win-rate high">77.5%</td>
+                        <td><button class="delete-btn">🗑️</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>NYU Steinhardt</strong></td>
+                        <td class="program-name">Educational Leadership, Politics & Advocacy</td>
+                        <td>267</td>
+                        <td>58</td>
+                        <td class="win-rate high">78.3%</td>
+                        <td><button class="delete-btn">🗑️</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Duke University</strong></td>
+                        <td class="program-name">Education Policy & Research</td>
+                        <td>234</td>
+                        <td>45</td>
+                        <td class="win-rate high">80.8%</td>
+                        <td><button class="delete-btn">🗑️</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Basic sorting functionality
+        document.querySelectorAll('.sortable').forEach(header => {
+            header.addEventListener('click', function() {
+                // Remove sorting classes from other headers
+                document.querySelectorAll('.sortable').forEach(h => {
+                    if (h !== this) {
+                        h.classList.remove('sorted-asc', 'sorted-desc');
+                    }
+                });
+                
+                // Toggle sort direction
+                if (this.classList.contains('sorted-desc')) {
+                    this.classList.remove('sorted-desc');
+                    this.classList.add('sorted-asc');
+                } else {
+                    this.classList.remove('sorted-asc');
+                    this.classList.add('sorted-desc');
+                }
+            });
+        });
+        
+        // Search functionality placeholder
+        document.querySelector('.search-input').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                const institutionName = row.querySelector('td strong').textContent.toLowerCase();
+                if (institutionName.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+        
+        // Delete button functionality
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to remove this competitor?')) {
+                    this.closest('tr').remove();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

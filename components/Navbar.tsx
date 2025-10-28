@@ -5,7 +5,7 @@ export default function Navbar() {
         <div className="nav__brand">
           
           <span className="nav__title">
-            Vanderbilt Competitor Analysis <span className="nav__pilot">(Pilot)</span>
+            
           </span>
         </div>
         <div /> {/* right-side spacer */}

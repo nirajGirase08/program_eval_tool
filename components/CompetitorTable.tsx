@@ -14,8 +14,6 @@ export type Row = {
 type SortKey = keyof Pick<
   Row,
   | "Institution"
-  | "Program"
-  | "cip_codes_used"
   | "appPercentile"
   | "admissibilityPercentile"
   | "winPercentile"
@@ -26,22 +24,49 @@ type Dir = "asc" | "desc";
 export default function CompetitorTable({
   program,
   rows: initial,
+  hideHeader = false, // NEW
 }: {
   program: string;
   rows: Row[];
+  hideHeader?: boolean; // NEW
 }) {
   const [query, setQuery] = useState("");
   const [rows, setRows] = useState<Row[]>(initial);
   const [sortKey, setSortKey] = useState<SortKey>("appPercentile");
   const [dir, setDir] = useState<Dir>("desc");
 
+  // ---- Add Competitor form state ----
+  const [showAdd, setShowAdd] = useState(false);
+  type NewRow = {
+    Institution: string;
+    Program: string;
+    cip_codes_used: string;
+    appPercentile: string;
+    admissibilityPercentile: string;
+    winPercentile: string;
+    overallPercentile: string;
+  };
+  const emptyNewRow = (): NewRow => ({
+    Institution: "",
+    Program: program || "",
+    cip_codes_used: "",
+    appPercentile: "",
+    admissibilityPercentile: "",
+    winPercentile: "",
+    overallPercentile: "",
+  });
+  const [newRow, setNewRow] = useState<NewRow>(emptyNewRow());
+
+  const clampPct = (v: string) => {
+    const num = Number(String(v).replace(/%/g, "").trim());
+    if (Number.isNaN(num)) return 0;
+    return Math.max(0, Math.min(100, Math.round(num)));
+  };
+
   const filtered = useMemo(() => {
     const q = query.toLowerCase();
-    let r = rows.filter(
-      (x) =>
-        x.Institution.toLowerCase().includes(q) ||
-        x.Program.toLowerCase().includes(q) ||
-        x.cip_codes_used.toLowerCase().includes(q)
+    let r = rows.filter((x) =>
+      x.Institution.toLowerCase().includes(q)
     );
     r = r.sort((a, b) => {
       const A = a[sortKey];
@@ -57,8 +82,9 @@ export default function CompetitorTable({
   }, [rows, query, sortKey, dir]);
 
   const toggleSort = (k: SortKey) => {
-    if (k === sortKey) setDir((d) => (d === "asc" ? "desc" : "asc"));
-    else {
+    if (k === sortKey) {
+      setDir((d) => (d === "asc" ? "desc" : "asc"));
+    } else {
       setSortKey(k);
       setDir("desc");
     }
@@ -67,36 +93,35 @@ export default function CompetitorTable({
   const winClass = (v: number) =>
     v >= 75 ? "win-high" : v >= 60 ? "win-mid" : "win-low";
 
-  const addRow = () => {
-    const inst = prompt("Institution name?");
-    if (!inst) return;
-    setRows((prev) => [
-      {
-        Institution: inst,
-        Program: program,
-        cip_codes_used: "",
-        appPercentile: 0,
-        admissibilityPercentile: 0,
-        winPercentile: 0,
-        overallPercentile: 0,
-      },
-      ...prev,
-    ]);
+  // ---- Add Competitor ----
+  const saveNewRow = () => {
+    if (!newRow.Institution.trim())
+      return alert("Institution is required.");
+
+    const toAdd: Row = {
+      Institution: newRow.Institution.trim(),
+      Program: newRow.Program.trim(),
+      cip_codes_used: newRow.cip_codes_used.trim(),
+      appPercentile: clampPct(newRow.appPercentile),
+      admissibilityPercentile: clampPct(
+        newRow.admissibilityPercentile
+      ),
+      winPercentile: clampPct(newRow.winPercentile),
+      overallPercentile: clampPct(newRow.overallPercentile),
+    };
+    setRows((prev) => [toAdd, ...prev]);
+    setShowAdd(false);
+    setNewRow(emptyNewRow());
   };
 
-  const confirmDelete = (i: number) => {
-    const item = filtered[i];
-    const idx = rows.indexOf(item);
-    if (window.confirm(`Delete "${item.Institution}" from the current view?`)) {
-      setRows((prev) => prev.filter((_, j) => j !== idx));
-    }
+  const cancelNewRow = () => {
+    setShowAdd(false);
+    setNewRow(emptyNewRow());
   };
 
   const exportCsv = () => {
     const header = [
       "Institution",
-      "Program",
-      "cip_codes_used",
       "App Percentile(%)",
       "Admissibility Percentile(%)",
       "Win Rate(%)",
@@ -106,8 +131,6 @@ export default function CompetitorTable({
       filtered.map((r) =>
         [
           csv(r.Institution),
-          csv(r.Program),
-          csv(r.cip_codes_used),
           `${r.appPercentile}%`,
           `${r.admissibilityPercentile}%`,
           `${r.winPercentile}%`,
@@ -129,50 +152,191 @@ export default function CompetitorTable({
   return (
     <div className="container">
       <div className="card">
-        <div className="card-head">
-          <h2 style={{ margin: 0, fontSize: 20, fontWeight: 800 }}>
-            Top Competitors — {program}
-          </h2>
-          <div className="toolbar">
-            <input
-              className="input"
-              placeholder="Search institutions..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <button className="btn" onClick={exportCsv}>
-              Export CSV
-            </button>
-            <button className="btn btn-primary" onClick={addRow}>
-              + Add Competitor
-            </button>
+        {/* ONLY render the section header + toolbar if hideHeader is false */}
+        {!hideHeader && (
+          <div className="card-head card-head--two">
+            <h2 className="card-title">
+              Top Competitors — {program}
+            </h2>
+
+            <div className="toolbar">
+              <input
+                className="small-input"
+                placeholder="Search institutions..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <button className="small-btn" onClick={exportCsv}>
+                Export CSV
+              </button>
+              <button
+                className="small-btn primary"
+                onClick={() => setShowAdd((v) => !v)}
+              >
+                {showAdd ? "Close" : "+ Add Competitor"}
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="card-body" style={{ paddingTop: 0 }}>
+          {/* Inline Add Competitor form */}
+          {showAdd && (
+            <div
+              className="card"
+              style={{
+                margin: "12px 0 16px",
+                padding: 12,
+                border: "1px dashed var(--line)",
+                background: "#fcfdff",
+              }}
+            >
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 12,
+                }}
+              >
+                <div>
+                  <label>Institution</label>
+                  <input
+                    className="small-input"
+                    value={newRow.Institution}
+                    onChange={(e) =>
+                      setNewRow({
+                        ...newRow,
+                        Institution: e.target.value,
+                      })
+                    }
+                    placeholder="e.g., Harvard Graduate School of Education"
+                  />
+                </div>
+
+                <div>
+                  <label>App Percentile (%)</label>
+                  <input
+                    className="small-input"
+                    inputMode="numeric"
+                    value={newRow.appPercentile}
+                    onChange={(e) =>
+                      setNewRow({
+                        ...newRow,
+                        appPercentile: e.target.value,
+                      })
+                    }
+                    placeholder="0–100"
+                  />
+                </div>
+
+                <div>
+                  <label>Admissibility Percentile (%)</label>
+                  <input
+                    className="small-input"
+                    inputMode="numeric"
+                    value={newRow.admissibilityPercentile}
+                    onChange={(e) =>
+                      setNewRow({
+                        ...newRow,
+                        admissibilityPercentile:
+                          e.target.value,
+                      })
+                    }
+                    placeholder="0–100"
+                  />
+                </div>
+
+                <div>
+                  <label>Win Rate (%)</label>
+                  <input
+                    className="small-input"
+                    inputMode="numeric"
+                    value={newRow.winPercentile}
+                    onChange={(e) =>
+                      setNewRow({
+                        ...newRow,
+                        winPercentile: e.target.value,
+                      })
+                    }
+                    placeholder="0–100"
+                  />
+                </div>
+
+                <div>
+                  <label>Overall Percentile (%)</label>
+                  <input
+                    className="small-input"
+                    inputMode="numeric"
+                    value={newRow.overallPercentile}
+                    onChange={(e) =>
+                      setNewRow({
+                        ...newRow,
+                        overallPercentile: e.target.value,
+                      })
+                    }
+                    placeholder="0–100"
+                  />
+                </div>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  gap: 8,
+                  justifyContent: "flex-end",
+                  marginTop: 12,
+                }}
+              >
+                <button className="small-btn" onClick={cancelNewRow}>
+                  Cancel
+                </button>
+                <button
+                  className="small-btn primary"
+                  onClick={saveNewRow}
+                >
+                  Save Competitor
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* --- Table --- */}
           <table className="table">
             <thead>
               <tr>
-                <th onClick={() => toggleSort("Institution")}>Institution</th>
-                <th onClick={() => toggleSort("Program")}>Program</th>
-                <th onClick={() => toggleSort("cip_codes_used")}>
-                  CIP Codes Used
+                <th
+                  onClick={() => toggleSort("Institution")}
+                  style={{ cursor: "pointer" }}
+                >
+                  Institution
                 </th>
-                <th className="num" onClick={() => toggleSort("appPercentile")}>
+                <th
+                  className="num"
+                  onClick={() => toggleSort("appPercentile")}
+                  style={{ cursor: "pointer" }}
+                >
                   App Percentile (%)
                 </th>
                 <th
                   className="num"
-                  onClick={() => toggleSort("admissibilityPercentile")}
+                  onClick={() =>
+                    toggleSort("admissibilityPercentile")
+                  }
+                  style={{ cursor: "pointer" }}
                 >
                   Admissibility Percentile (%)
                 </th>
-                <th className="num" onClick={() => toggleSort("winPercentile")}>
+                <th
+                  className="num"
+                  onClick={() => toggleSort("winPercentile")}
+                  style={{ cursor: "pointer" }}
+                >
                   Win Rate (%)
                 </th>
                 <th
                   className="num"
                   onClick={() => toggleSort("overallPercentile")}
+                  style={{ cursor: "pointer" }}
                 >
                   Overall Percentile (%)
                 </th>
@@ -185,21 +349,29 @@ export default function CompetitorTable({
                   <td>
                     <strong>{r.Institution}</strong>
                   </td>
-                  <td style={{ color: "var(--muted)", fontStyle: "italic" }}>
-                    {r.Program}
-                  </td>
-                  <td>{r.cip_codes_used || "—"}</td>
                   <td className="num">{`${r.appPercentile}%`}</td>
                   <td className="num">{`${r.admissibilityPercentile}%`}</td>
-                  <td className={`num ${winClass(r.winPercentile)}`}>
-                    {`${r.winPercentile}%`}
-                  </td>
+                  <td
+                    className={`num ${winClass(r.winPercentile)}`}
+                  >{`${r.winPercentile}%`}</td>
                   <td className="num">{`${r.overallPercentile}%`}</td>
                   <td className="num">
                     <button
                       className="icon-btn"
                       title="Delete"
-                      onClick={() => confirmDelete(i)}
+                      onClick={() => {
+                        const item = filtered[i];
+                        const idx = rows.indexOf(item);
+                        if (
+                          window.confirm(
+                            `Delete "${item.Institution}" from the current view?`
+                          )
+                        ) {
+                          setRows((prev) =>
+                            prev.filter((_, j) => j !== idx)
+                          );
+                        }
+                      }}
                     >
                       🗑️
                     </button>
@@ -209,7 +381,7 @@ export default function CompetitorTable({
               {filtered.length === 0 && (
                 <tr>
                   <td
-                    colSpan={8}
+                    colSpan={6}
                     style={{
                       textAlign: "center",
                       color: "var(--muted)",
